@@ -10,7 +10,6 @@ public class Character : MonoBehaviour
     protected void Start()
     {
         currentHealth = maxHealth;
-        Debug.Log(currentHealth);
     }
 
     public void ApplyDamage(int damage)

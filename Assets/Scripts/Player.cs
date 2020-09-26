@@ -2,19 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Character
+public class Player : Character
 {
+    private int currentMana;
+
     [SerializeField]
-    private Healthbar hpbar;
+    private int maxMana;
+
     [SerializeField]
-    private Transform pfDamagePopup;
+    private PlayerHealthbar hpbar;
+
     [SerializeField]
-    private Canvas canvas;
+    private PlayerManaBar manabar;
+    // Start is called before the first frame update
     private new void Start()
     {
         base.Start();
         hpbar.SetMaxHealth(this.maxHealth);
+        this.currentHealth = 40;
         hpbar.SetHealth(this.currentHealth);
+
+
+        manabar.SetMaxMana(this.maxMana);
+        this.currentMana = 30;
+        manabar.SetMana(this.currentMana);
     }
 
     public new void ApplyDamage(int damage)
@@ -23,11 +34,6 @@ public class Enemy : Character
 
         hpbar.SetHealth(this.currentHealth);
 
-        DamagePopup.Create(canvas, damage);
     }
 
-    private void Update()
-    {
-        
-    }
 }

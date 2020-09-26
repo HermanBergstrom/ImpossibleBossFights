@@ -12,8 +12,8 @@ public class Healthbar : MonoBehaviour {
     public Gradient gradient;
     public Image fill;
 
-    private int maxHealth = 100;
-    private int currentHealth = 100;
+    protected int maxHealth = 100;
+    protected int currentHealth = 100;
 
     public void SetHealth(int value)
     {

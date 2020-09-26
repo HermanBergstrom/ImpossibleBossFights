@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Character
 {
+
+    public Player player;
     public Rigidbody rigidbody;
     // Start is called before the first frame 
     public Animator animator;
