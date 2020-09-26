@@ -7,7 +7,11 @@ public class SwordController : MonoBehaviour
 {
     [NonSerialized]
     public bool targetStruck = false;
+
     // Update is called once per frame
+    public int damage;
+
+
     void Update()
     {
         
@@ -15,9 +19,9 @@ public class SwordController : MonoBehaviour
 
     void OnTriggerEnter(Collider target)
     {
-        if (target.tag == "Enemy" && GameObject.Find("Player").GetComponent<CharacterController>().isAttacking && !targetStruck)
+        if (target.tag == "Enemy" && GameObject.Find("Player").GetComponent<PlayerController>().isAttacking && !targetStruck)
         {
-            Debug.Log("I HIT HIM");
+            target.gameObject.GetComponent<Enemy>().ApplyDamage(damage);
             targetStruck = true;
         }
     }
@@ -26,4 +30,5 @@ public class SwordController : MonoBehaviour
     {
 
     }
+
 }
