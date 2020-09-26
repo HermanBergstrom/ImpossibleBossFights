@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public bool isAttacking;
 
+
+    private float timeUntilRegen = 1f;
+
     // Update is called once per frame
     void Update()
     {
@@ -30,6 +33,13 @@ public class PlayerController : MonoBehaviour
 
         player.UpdateSpells();
 
+
+        timeUntilRegen -= Time.deltaTime;
+        if(timeUntilRegen < 0)
+        {
+            player.TriggerRegen();
+            timeUntilRegen = 1;
+        }
     }
 
     void handleMovement()

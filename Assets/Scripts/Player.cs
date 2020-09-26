@@ -15,6 +15,8 @@ public class Player : Character
     [SerializeField]
     private PlayerManaBar manabar;
     // Start is called before the first frame update
+    [SerializeField]
+    private int manaRegeneration;
 
     [SerializeField]
     protected int rotationSpeed;
@@ -100,5 +102,26 @@ public class Player : Character
         {
             spell.UpdateStatus();
         }
+    }
+
+    public void TriggerRegen()
+    {
+        RegenMana();
+    }
+    public void RegenMana()
+    {
+        if(currentMana < maxMana)
+        {
+            if(currentMana + manaRegeneration > maxMana)
+            {
+                currentMana = maxMana;
+            }
+            else
+            {
+                currentMana += manaRegeneration;
+            }
+        }
+
+        manabar.SetMana(currentMana);
     }
 }
