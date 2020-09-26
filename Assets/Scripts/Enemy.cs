@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-
-    public Healthbar hpbar;
+    [SerializeField]
+    private Healthbar hpbar;
+    [SerializeField]
+    private Transform pfDamagePopup;
+    [SerializeField]
+    private Canvas canvas;
     private void Start()
     {
         base.Start();
+        hpbar.SetMaxHealth(this.maxHealth);
+        hpbar.SetHealth(this.currentHealth);
     }
 
     public new void ApplyDamage(int damage)
@@ -17,6 +23,7 @@ public class Enemy : Character
 
         hpbar.SetHealth(this.currentHealth);
 
+        DamagePopup.Create(canvas, damage);
     }
 
     private void Update()

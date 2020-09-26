@@ -16,10 +16,7 @@ public class Character : MonoBehaviour
     public void ApplyDamage(int damage)
     {
 
-        Debug.Log(currentHealth);
         currentHealth -= damage;
-
-        Debug.Log(currentHealth);
 
         if(currentHealth <= 0)
         {
