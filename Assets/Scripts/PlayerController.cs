@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Character
+public class PlayerController : MonoBehaviour
 {
 
     public Player player;
     public Rigidbody rigidbody;
     // Start is called before the first frame 
     public Animator animator;
-    public int moveSpeed;
-    public int rotationSpeed;
     public bool isAttacking;
 
     // Update is called once per frame
@@ -29,6 +27,9 @@ public class PlayerController : Character
         {
             animator.SetBool("isAttacking", false);
         }
+
+        player.UpdateSpells();
+
     }
 
     void handleMovement()
@@ -41,15 +42,15 @@ public class PlayerController : Character
 
             var velocity = new Vector3(vx, 0, vz);
 
-            float newVx = vx * moveSpeed / velocity.magnitude;
-            float newVz = vz * moveSpeed / velocity.magnitude;
+            float newVx = vx * player.GetMoveSpeed() / velocity.magnitude;
+            float newVz = vz * player.GetMoveSpeed() / velocity.magnitude;
 
             if (Mathf.Abs(Vector3.Dot(transform.forward.normalized, velocity.normalized) - 1) > 0.001)
             {
 
                 rigidbody.velocity = new Vector3(0, 0, 0);
 
-                transform.forward = Vector3.RotateTowards(transform.forward, velocity.normalized, 0.03f * rotationSpeed, 0);
+                transform.forward = Vector3.RotateTowards(transform.forward, velocity.normalized, 0.03f * player.GetRotationSpeed(), 0);
             }
             else
             {
@@ -79,6 +80,12 @@ public class PlayerController : Character
             this.isAttacking = true;
         }
     }
+
+    public void InvokeSpell(int index)
+    {
+        player.AttemptSpellInvoke(index);
+    }
+
 }
 
 

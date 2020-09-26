@@ -7,6 +7,10 @@ public class Character : MonoBehaviour
     public int maxHealth;
     protected int currentHealth;
     // Start is called before the first frame update
+
+    [SerializeField]
+    protected int moveSpeed;
+
     protected void Start()
     {
         currentHealth = maxHealth;
@@ -26,5 +30,15 @@ public class Character : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject);
+    }
+
+    public int GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+    public void SetMoveSpeed(int newSpeed)
+    {
+        Debug.Log(newSpeed);
+        moveSpeed = newSpeed;
     }
 }
