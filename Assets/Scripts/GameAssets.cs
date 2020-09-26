@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class GameAssets : MonoBehaviour
@@ -26,6 +27,7 @@ public class GameAssets : MonoBehaviour
     public GameAssets()
     {
         imageobjects = new Dictionary<string, SpellIconImageObject>();
-        imageobjects.Add()
+
+        //imageobjects.Add(,Resources.Load<Sprite>("Assets/GUI_Parts/Icons/skill_icon_03.png"));
     }
 }
