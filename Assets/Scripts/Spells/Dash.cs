@@ -13,6 +13,7 @@ public class Dash : ISpell
     private bool invoked;
     private int oldRotationSpeed;
     private int oldMovementSpeed;
+    private string name = "Dash";
 
     public Dash(Player player)
     {
@@ -78,5 +79,10 @@ public class Dash : ISpell
     public bool isInvoked()
     {
         return invoked;
+    }
+
+    public string GetName()
+    {
+        return name;
     }
 }

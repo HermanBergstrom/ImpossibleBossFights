@@ -11,6 +11,8 @@ public class Character : MonoBehaviour
     [SerializeField]
     protected int moveSpeed;
 
+
+
     protected void Start()
     {
         currentHealth = maxHealth;
@@ -38,7 +40,6 @@ public class Character : MonoBehaviour
     }
     public void SetMoveSpeed(int newSpeed)
     {
-        Debug.Log(newSpeed);
         moveSpeed = newSpeed;
     }
 }

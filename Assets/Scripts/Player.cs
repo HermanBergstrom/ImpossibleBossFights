@@ -23,6 +23,8 @@ public class Player : Character
 
     private List<ISpell> spells;
 
+    private bool isMooving;
+
     private new void Start()
     {
         base.Start();
@@ -96,14 +98,6 @@ public class Player : Character
         manabar.SetMana(currentMana);
     }
 
-    public void UpdateSpells()
-    {
-        foreach(ISpell spell in spells)
-        {
-            spell.UpdateStatus();
-        }
-    }
-
     public void TriggerRegen()
     {
         RegenMana();
@@ -123,5 +117,20 @@ public class Player : Character
         }
 
         manabar.SetMana(currentMana);
+    }
+
+    public List<ISpell> GetSpells()
+    {
+        return spells;
+    }
+
+    public bool IsMooving()
+    {
+        return isMooving;
+    }
+
+    public void SetIsMooving(bool newValue)
+    {
+        isMooving = newValue;
     }
 }

@@ -11,10 +11,19 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public bool isAttacking;
 
-
     private float timeUntilRegen = 1f;
-
     // Update is called once per frame
+    
+    [SerializeField]
+    private SpellIconController[] spellIcons;
+
+    private void Start()
+    {
+        for(int i = 0; i < spellIcons.Length; i++)
+        {
+            spellIcons[i].SetSpell(player.GetSpells()[i]);
+        }
+    }
     void Update()
     {
         handleMovement();
@@ -31,7 +40,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isAttacking", false);
         }
 
-        player.UpdateSpells();
+        UpdateSpells();
 
 
         timeUntilRegen -= Time.deltaTime;
@@ -94,6 +103,14 @@ public class PlayerController : MonoBehaviour
     public void InvokeSpell(int index)
     {
         player.AttemptSpellInvoke(index);
+    }
+
+    private void UpdateSpells()
+    {
+        foreach (ISpell spell in player.GetSpells())
+        {
+            spell.UpdateStatus();
+        }
     }
 
 }

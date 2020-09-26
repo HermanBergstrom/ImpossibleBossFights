@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class GameAssets : MonoBehaviour
 {
     private static GameAssets _i;
@@ -16,4 +18,14 @@ public class GameAssets : MonoBehaviour
     }
 
     public Transform pfDamagePopup;
+
+    public Dictionary<string, SpellIconImageObject> imageobjects;
+
+    public SpellIconImageObjectMap images;
+
+    public GameAssets()
+    {
+        imageobjects = new Dictionary<string, SpellIconImageObject>();
+        imageobjects.Add()
+    }
 }

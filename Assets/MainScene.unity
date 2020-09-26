@@ -844,6 +844,7 @@ GameObject:
   - component: {fileID: 687401975}
   - component: {fileID: 687401974}
   - component: {fileID: 687401973}
+  - component: {fileID: 687401976}
   m_Layer: 5
   m_Name: Spell2
   m_TagString: Untagged
@@ -951,6 +952,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687401971}
   m_CullTransparentMesh: 0
+--- !u!114 &687401976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687401971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64000a0a3dd50e0488d3f5fd83242241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &717509871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1499150761973230, guid: 202ccae763d2cb94f835eb509d72b30c,
@@ -1345,9 +1358,8 @@ MonoBehaviour:
   player: {fileID: 865900993}
   rigidbody: {fileID: 865900988}
   animator: {fileID: 865900991}
-  moveSpeed: 10
-  rotationSpeed: 5
   isAttacking: 0
+  spellIcons: []
 --- !u!4 &865900990 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5930651934574693639, guid: 7bf201eb93a64ab47857ce81b796a258,
@@ -1387,6 +1399,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c51afa706b02a044694b30f33f81d239, type: 3}
   - {fileID: 21300000, guid: 4dc051a0301cecb4aa1a85036ace2a58, type: 3}
   - {fileID: 21300000, guid: cf6478ef684ce7f4c830edba147c7607, type: 3}
+  playerController: {fileID: 865900989}
 --- !u!114 &865900993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1404,6 +1417,8 @@ MonoBehaviour:
   maxMana: 40
   hpbar: {fileID: 1564376595047039}
   manabar: {fileID: 724189400}
+  manaRegeneration: 1
+  rotationSpeed: 5
 --- !u!1 &956716942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,6 +1835,7 @@ GameObject:
   - component: {fileID: 1032908629}
   - component: {fileID: 1032908628}
   - component: {fileID: 1032908627}
+  - component: {fileID: 1032908630}
   m_Layer: 5
   m_Name: Spell1
   m_TagString: Untagged
@@ -1927,6 +1943,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032908625}
   m_CullTransparentMesh: 0
+--- !u!114 &1032908630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032908625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64000a0a3dd50e0488d3f5fd83242241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1035441733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,7 +2043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1082324037}
   m_Layer: 5
-  m_Name: Spells
+  m_Name: SpellBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2462,6 +2490,7 @@ GameObject:
   - component: {fileID: 1337306265}
   - component: {fileID: 1337306264}
   - component: {fileID: 1337306263}
+  - component: {fileID: 1337306266}
   m_Layer: 5
   m_Name: Spell4
   m_TagString: Untagged
@@ -2569,6 +2598,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337306261}
   m_CullTransparentMesh: 0
+--- !u!114 &1337306266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337306261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64000a0a3dd50e0488d3f5fd83242241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1467562121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2867,6 +2908,7 @@ GameObject:
   - component: {fileID: 1652040161}
   - component: {fileID: 1652040160}
   - component: {fileID: 1652040159}
+  - component: {fileID: 1652040162}
   m_Layer: 5
   m_Name: Spell3
   m_TagString: Untagged
@@ -2974,6 +3016,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652040157}
   m_CullTransparentMesh: 0
+--- !u!114 &1652040162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652040157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64000a0a3dd50e0488d3f5fd83242241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1652940603
 GameObject:
   m_ObjectHideFlags: 0

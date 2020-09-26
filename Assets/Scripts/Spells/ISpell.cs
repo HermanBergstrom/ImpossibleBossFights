@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface ISpell
+public interface ISpell
 {
     int GetManacost();
 
@@ -13,5 +13,7 @@ interface ISpell
     void Invoke();
     void UpdateStatus();
     bool isInvoked();
+
+    string GetName();
 
 }
