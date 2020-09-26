@@ -21,7 +21,11 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < spellIcons.Length; i++)
         {
-            spellIcons[i].SetSpell(player.GetSpells()[i]);
+            if (i < player.GetSpells().Count)
+            {
+                spellIcons[i].SetSpell(player.GetSpells()[i]);
+            }
+
         }
     }
     void Update()

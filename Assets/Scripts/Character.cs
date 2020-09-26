@@ -9,6 +9,9 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField]
+    protected int healthRegeneration;
+
+    [SerializeField]
     protected int moveSpeed;
 
 

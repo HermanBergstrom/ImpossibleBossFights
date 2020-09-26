@@ -100,7 +100,25 @@ public class Player : Character
 
     public void TriggerRegen()
     {
+        RegenHealth();
         RegenMana();
+    }
+
+    private void RegenHealth()
+    {
+        Debug.Log("REGEN!");
+        if (currentHealth < maxHealth)
+        {
+            if (currentHealth + healthRegeneration > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            else
+            {
+                currentHealth += healthRegeneration;
+            }
+        }
+        hpbar.SetHealth(currentHealth);
     }
     public void RegenMana()
     {
@@ -132,5 +150,10 @@ public class Player : Character
     public void SetIsMooving(bool newValue)
     {
         isMooving = newValue;
+    }
+
+    public int GetCurrentMana()
+    {
+        return currentMana;
     }
 }

@@ -22,12 +22,15 @@ public class GameAssets : MonoBehaviour
 
     public Dictionary<string, SpellIconImageObject> imageobjects;
 
-    public SpellIconImageObjectMap images;
-
-    public GameAssets()
+    private void Awake()
     {
         imageobjects = new Dictionary<string, SpellIconImageObject>();
 
-        //imageobjects.Add(,Resources.Load<Sprite>("Assets/GUI_Parts/Icons/skill_icon_03.png"));
+        Sprite defaultImage = Resources.Load<Sprite>("Icons/skill_icon_03");
+        Sprite pressedImage = Resources.Load<Sprite>("Icons/skill_icon_03_nobg");
+        imageobjects.Add("Dash", new SpellIconImageObject(defaultImage, pressedImage));
+        
     }
+
+
 }
