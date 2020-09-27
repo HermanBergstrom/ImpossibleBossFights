@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private SpellIconController[] spellIcons;
 
+    public AudioSource playerAudio;
+
     private void Start()
     {
         for(int i = 0; i < spellIcons.Length; i++)
@@ -110,6 +112,8 @@ public class PlayerController : MonoBehaviour
         if (player.AttemptSpellInvoke(index))
         {
             animator.Play(spell.GetAnimation());
+            playerAudio.clip = Resources.Load<AudioClip>("Sounds/Spells/" + spell.GetName());
+            playerAudio.Play();
         }
         
         
