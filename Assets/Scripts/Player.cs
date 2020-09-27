@@ -25,9 +25,9 @@ public class Player : Character
 
     private bool isMooving;
 
-    private new void Start()
+    private void Awake()
     {
-        base.Start();
+        //base.Start();
 
         SetupBars();
 

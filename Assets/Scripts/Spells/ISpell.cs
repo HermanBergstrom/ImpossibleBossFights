@@ -13,7 +13,7 @@ public interface ISpell
     void Invoke();
     void UpdateStatus();
     bool isInvoked();
-
     string GetName();
+    string GetAnimation();
 
 }

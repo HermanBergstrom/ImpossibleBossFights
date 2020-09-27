@@ -14,10 +14,16 @@ public class Dash : ISpell
     private int oldRotationSpeed;
     private int oldMovementSpeed;
     private string name = "Dash";
+    private ParticleSystem particle;
+    private string animation;
+
 
     public Dash(Player player)
     {
         this.player = player;
+        this.particle = player.GetComponent<ParticleSystem>();
+        particle.Stop();
+        animation = "arthur_active_01";
     }
 
     public float GetCoolDown()
@@ -38,6 +44,7 @@ public class Dash : ISpell
     public void Invoke()
     {
         invoked = true;
+        particle.Play();
         oldRotationSpeed = player.GetRotationSpeed();
         player.SetRotationSpeed(0);
         oldMovementSpeed = player.GetMoveSpeed();
@@ -83,6 +90,11 @@ public class Dash : ISpell
 
     public string GetName()
     {
-        return name;
+        return this.name;
+    }
+
+    public string GetAnimation()
+    {
+        return this.animation;
     }
 }

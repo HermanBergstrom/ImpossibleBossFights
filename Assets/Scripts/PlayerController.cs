@@ -106,7 +106,13 @@ public class PlayerController : MonoBehaviour
 
     public void InvokeSpell(int index)
     {
-        player.AttemptSpellInvoke(index);
+        ISpell spell = player.GetSpells()[index];
+        if (player.AttemptSpellInvoke(index))
+        {
+            animator.Play(spell.GetAnimation());
+        }
+        
+        
     }
 
     private void UpdateSpells()
