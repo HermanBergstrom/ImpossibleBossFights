@@ -23,6 +23,8 @@ public class EnemyController : MonoBehaviour
     private bool isAttacking = false;
     private float bodyDespawnTimer = 10f;
     private bool deathSequenceInitiated = false;
+    [SerializeField]
+    private Healthbar hpbar;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +34,18 @@ public class EnemyController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         target = GameAssets.i.player.transform;
         player = GameAssets.i.player.GetComponent<Player>();
+
+
+        hpbar.SetMaxHealth(enemy.maxHealth);
+        hpbar.SetHealth(enemy.GetCurrentHealth());
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        hpbar.SetHealth(enemy.GetCurrentHealth());
+
         if (!enemy.isDead)
         {
             if (attackDamageCountDown > 0 && isAttacking)
@@ -106,7 +115,8 @@ public class EnemyController : MonoBehaviour
         {
             animator.Play("Death");
             deathSequenceInitiated = true;
-            
+            gameObject.GetComponent<Collider>().enabled = false;
+            Destroy(hpbar.gameObject);
         }
         else
         {

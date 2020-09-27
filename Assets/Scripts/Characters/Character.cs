@@ -67,4 +67,9 @@ public class Character : MonoBehaviour
     {
         appliedKnockback = knockback;
     }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
 }
