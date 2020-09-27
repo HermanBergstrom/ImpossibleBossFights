@@ -20,6 +20,7 @@ public class Enemy : Character
         base.ApplyDamage(damage);
 
         DamagePopup.Create(canvas, damage);
+
     }
 
     public int GetDamage()
@@ -31,5 +32,4 @@ public class Enemy : Character
     {
         return attackSpeed;
     }
-
 }

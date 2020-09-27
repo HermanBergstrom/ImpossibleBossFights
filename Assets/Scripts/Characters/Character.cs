@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
     public int maxHealth;
     protected int currentHealth;
     // Start is called before the first frame update
+
     public bool isDead = false;
 
     [SerializeField]

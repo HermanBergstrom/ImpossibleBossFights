@@ -82,6 +82,8 @@ public class PlayerController : MonoBehaviour
 
             if (Mathf.Abs(Vector3.Dot(transform.forward.normalized, velocity.normalized) - 1) > 0.1)
             {
+
+
                 //rigidbody.velocity = new Vector3(0, 0, 0);
             }
             else
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
                 rigidbody.velocity = new Vector3(newVx, 0, newVz);
             }
             transform.forward = Vector3.RotateTowards(transform.forward, velocity.normalized, 0.03f * player.GetRotationSpeed(), 0);
+
         }
         else
         {
