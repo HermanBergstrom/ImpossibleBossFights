@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame 
     public Animator animator;
     public bool isAttacking;
-
+    List<IColliderObserver> observers;
     private float timeUntilRegen = 1f;
     // Update is called once per frame
     
@@ -21,6 +21,16 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        observers = new List<IColliderObserver>();
+
+        AddSpells();
+
+        GameObject spellObject = transform.Find("SpellObject").gameObject;
+
+        SpellObjectController spellObjectController = spellObject.GetComponent<SpellObjectController>();
+
+        spellObjectController.observers = observers;
+
         for(int i = 0; i < spellIcons.Length; i++)
         {
             if (i < player.GetSpells().Count)
@@ -125,6 +135,16 @@ public class PlayerController : MonoBehaviour
         {
             spell.UpdateStatus();
         }
+    }
+
+
+
+
+    private void AddSpells()
+    {
+        Dash dash = new Dash();
+        observers.Add(dash);
+        player.AddSpell(dash);
     }
 
 }

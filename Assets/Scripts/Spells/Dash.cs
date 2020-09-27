@@ -1,14 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dash : ISpell
+public class Dash : ISpell, IColliderObserver
 {
     private readonly int manacost = 10;
     private readonly float coolDown = 5f;
     private float currentCoolDown = 0f;
-    private Player player;
     private readonly float duration = 0.15f;
+    private readonly float radius = 5f;
+    private readonly int damage = 20;
+    private readonly int force = 500;
+    private readonly float knockbackDuration = 0.5f;
+
+    private Player player;
     private float remainingDuration;
     private bool invoked;
     private int oldRotationSpeed;
@@ -16,15 +22,21 @@ public class Dash : ISpell
     private string name = "Dash";
     private ParticleSystem particle;
     private string animation;
+    private Transform playerTransform;
+    private SphereCollider chargeCollider;
+    private List<Enemy> enemiesStruck;
 
-
-    public Dash(Player player)
+    public Dash()
     {
-        this.player = player;
+        this.player = GameAssets.i.player.GetComponent<Player>();
+        this.playerTransform = GameAssets.i.player.transform;
         this.particle = player.GetComponent<ParticleSystem>();
         particle.Stop();
         animation = "arthur_active_01";
+        enemiesStruck = new List<Enemy>();
     }
+
+
 
     public float GetCoolDown()
     {
@@ -44,6 +56,9 @@ public class Dash : ISpell
     public void Invoke()
     {
         invoked = true;
+
+        AddColider();
+        player.gameObject.GetComponent<CapsuleCollider>().enabled = false;
         particle.Play();
         oldRotationSpeed = player.GetRotationSpeed();
         player.SetRotationSpeed(0);
@@ -63,11 +78,7 @@ public class Dash : ISpell
 
             if (remainingDuration <= 0)
             {
-                remainingDuration = 0;
-                player.SetRotationSpeed(oldRotationSpeed);
-                player.SetMoveSpeed(oldMovementSpeed);
-
-                invoked = false;
+                unInvoke();
             }
         }
 
@@ -83,6 +94,17 @@ public class Dash : ISpell
 
     }
 
+    private void unInvoke()
+    {
+        enemiesStruck = new List<Enemy>();
+        remainingDuration = 0;
+        player.SetRotationSpeed(oldRotationSpeed);
+        player.SetMoveSpeed(oldMovementSpeed);
+        GameAssets.i.destroyGameObject(chargeCollider);
+        player.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        invoked = false;
+    }
+
     public bool isInvoked()
     {
         return invoked;
@@ -96,5 +118,41 @@ public class Dash : ISpell
     public string GetAnimation()
     {
         return this.animation;
+    }
+
+    public void OnTriggerEnterRespond(Collider target)
+    {
+        if(target.tag == "Enemy")
+        {
+            Enemy enemy = target.gameObject.GetComponent<Enemy>();
+
+            if (!enemiesStruck.Contains(enemy))
+            {
+                Vector3 direction = (target.transform.position - player.transform.position).normalized;
+                enemy.ApplyKnockback(new Knockback(force, direction, knockbackDuration));
+                enemy.ApplyDamage(damage);
+                enemiesStruck.Add(enemy);
+            }
+
+
+        }
+    }
+
+    public void OnTriggerExitRespond(Collider target)
+    {
+        //throw new System.NotImplementedException();
+    }
+
+
+    private void AddColider()
+    {
+        GameObject spellObject = player.transform.Find("SpellObject").gameObject;
+
+        chargeCollider = spellObject.AddComponent<SphereCollider>();
+        chargeCollider.isTrigger = true;
+        chargeCollider.radius = radius;
+
+
+
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Character : MonoBehaviour
 {
+
+    public Knockback appliedKnockback;
     public int maxHealth;
     protected int currentHealth;
     // Start is called before the first frame update
@@ -14,9 +15,12 @@ public class Character : MonoBehaviour
     [SerializeField]
     protected int moveSpeed;
 
-
-
     protected void Start()
+    {
+
+    }
+
+    protected void Awake()
     {
         currentHealth = maxHealth;
     }
@@ -44,5 +48,22 @@ public class Character : MonoBehaviour
     public void SetMoveSpeed(int newSpeed)
     {
         moveSpeed = newSpeed;
+    }
+
+    public void Update()
+    {
+        if (appliedKnockback != null)
+        {
+            appliedKnockback.remainingDuration -= Time.deltaTime;
+            if (appliedKnockback.remainingDuration < 0)
+            {
+                appliedKnockback = null;
+            }
+        }
+    }
+
+    public void ApplyKnockback(Knockback knockback)
+    {
+        appliedKnockback = knockback;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,13 +26,15 @@ public class Player : Character
 
     private bool isMooving;
 
-    private void Awake()
+    public new void Awake()
     {
-        //base.Start();
+        base.Awake();
+
+        currentMana = maxMana;
 
         SetupBars();
 
-        AddSpells();
+        spells = new List<ISpell>();
     }
 
     public new void ApplyDamage(int damage)
@@ -45,20 +48,11 @@ public class Player : Character
     private void SetupBars()
     {
         hpbar.SetMaxHealth(this.maxHealth);
-        this.currentHealth = 40;
         hpbar.SetHealth(this.currentHealth);
 
 
         manabar.SetMaxMana(this.maxMana);
-        this.currentMana = 30;
         manabar.SetMana(this.currentMana);
-    }
-
-    private void AddSpells()
-    {
-        spells = new List<ISpell>();
-
-        spells.Add(new Dash(this));
     }
 
     public int GetRotationSpeed()
@@ -106,7 +100,6 @@ public class Player : Character
 
     private void RegenHealth()
     {
-        Debug.Log("REGEN!");
         if (currentHealth < maxHealth)
         {
             if (currentHealth + healthRegeneration > maxHealth)
@@ -155,5 +148,15 @@ public class Player : Character
     public int GetCurrentMana()
     {
         return currentMana;
+    }
+
+    public void AddSpell(ISpell spell, int index)
+    {
+        spells[index] = spell;
+    }
+
+    public void AddSpell(ISpell spell)
+    {
+        spells.Add(spell);
     }
 }

@@ -10,6 +10,12 @@ public class Enemy : Character
     private Transform pfDamagePopup;
     [SerializeField]
     private Canvas canvas;
+
+    [SerializeField]
+    private int damage;
+
+    [SerializeField]
+    private float attackSpeed;
     private new void Start()
     {
         base.Start();
@@ -26,8 +32,13 @@ public class Enemy : Character
         DamagePopup.Create(canvas, damage);
     }
 
-    private void Update()
+    public int GetDamage()
     {
-        
+        return damage;
+    }
+
+    public float GetAttackSpeed()
+    {
+        return attackSpeed;
     }
 }
