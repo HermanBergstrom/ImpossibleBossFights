@@ -10,6 +10,7 @@ public class InputController : MonoBehaviour
     public Button[] spells;
     public Sprite[] defaultImages;
     public Sprite[] pressedImages;
+    public PlayerController playerController;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,10 @@ public class InputController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             spells[0].image.sprite = pressedImages[0];
+        }
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            playerController.InvokeSpell(0);
         }
         if (Input.GetKeyUp(KeyCode.Alpha1)){
             spells[0].image.sprite = defaultImages[0];
