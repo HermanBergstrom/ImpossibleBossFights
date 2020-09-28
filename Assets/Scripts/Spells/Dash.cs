@@ -28,8 +28,8 @@ public class Dash : ISpell, IColliderObserver
 
     public Dash()
     {
-        this.player = GameAssets.i.player.GetComponent<Player>();
-        this.playerTransform = GameAssets.i.player.transform;
+        this.player = GameAssets.instance.player.GetComponent<Player>();
+        this.playerTransform = GameAssets.instance.player.transform;
         this.particle = player.GetComponent<ParticleSystem>();
         particle.Stop();
         animation = "arthur_active_01";
@@ -100,7 +100,7 @@ public class Dash : ISpell, IColliderObserver
         remainingDuration = 0;
         player.SetRotationSpeed(oldRotationSpeed);
         player.SetMoveSpeed(oldMovementSpeed);
-        GameAssets.i.destroyGameObject(chargeCollider);
+        GameAssets.instance.destroyGameObject(chargeCollider);
         player.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         invoked = false;
     }

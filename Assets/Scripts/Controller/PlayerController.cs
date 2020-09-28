@@ -145,6 +145,9 @@ public class PlayerController : MonoBehaviour
         Dash dash = new Dash();
         observers.Add(dash);
         player.AddSpell(dash);
+
+        Swipe swipe = new Swipe();
+        player.AddSpell(swipe);
     }
 
 }

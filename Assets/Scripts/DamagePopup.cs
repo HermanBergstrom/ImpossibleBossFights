@@ -25,7 +25,7 @@ public class DamagePopup : MonoBehaviour
         RectTransform rt = (RectTransform)parentCanvas.transform;
         float xSpawn = Random.Range(0, rt.rect.width * rt.localScale.x) + parentCanvas.transform.position.x - rt.rect.width*rt.localScale.x;
 
-        Transform damagePopupTransform = Instantiate(GameAssets.i.pfDamagePopup, new Vector3(xSpawn, parentCanvas.transform.position.y, parentCanvas.transform.position.z), Quaternion.identity);
+        Transform damagePopupTransform = Instantiate(GameAssets.instance.pfDamagePopup, new Vector3(xSpawn, parentCanvas.transform.position.y, parentCanvas.transform.position.z), Quaternion.identity);
         damagePopupTransform.SetParent(parentCanvas.transform);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damageAmount);

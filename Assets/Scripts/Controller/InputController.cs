@@ -11,11 +11,7 @@ public class InputController : MonoBehaviour
     public Sprite[] defaultImages;
     public Sprite[] pressedImages;
     public PlayerController playerController;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -33,6 +29,7 @@ public class InputController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Alpha2))
         {
+            playerController.InvokeSpell(1);
             spells[1].image.sprite = pressedImages[1];
         }
         if (Input.GetKeyUp(KeyCode.Alpha2))

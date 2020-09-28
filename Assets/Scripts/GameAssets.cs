@@ -7,14 +7,14 @@ using UnityEngine.UI;
 [Serializable]
 public class GameAssets : MonoBehaviour
 {
-    private static GameAssets _i;
+    private static GameAssets _instance;
 
-    public static GameAssets i
+    public static GameAssets instance
     {
         get
         {
-            if (_i == null) _i = Instantiate(Resources.Load<GameAssets>("GameAssets"));
-            return _i;
+            if (_instance == null) _instance = Instantiate(Resources.Load<GameAssets>("GameAssets"));
+            return _instance;
         }
     }
 
@@ -30,6 +30,10 @@ public class GameAssets : MonoBehaviour
         Sprite defaultImage = Resources.Load<Sprite>("Icons/skill_icon_03");
         Sprite pressedImage = Resources.Load<Sprite>("Icons/skill_icon_03_nobg");
         imageobjects.Add("Dash", new SpellIconImageObject(defaultImage, pressedImage));
+
+        defaultImage = Resources.Load<Sprite>("Icons/skill_icon_02");
+        pressedImage = Resources.Load<Sprite>("Icons/skill_icon_02_nobg");
+        imageobjects.Add("Swipe", new SpellIconImageObject(defaultImage, pressedImage));
 
         player = GameObject.Find("Player");
         

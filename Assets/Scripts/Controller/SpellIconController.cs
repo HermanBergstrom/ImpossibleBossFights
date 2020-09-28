@@ -71,7 +71,7 @@ public class SpellIconController : MonoBehaviour
     public void SetSpell(ISpell spell)
     {
         this.spell = spell;
-        imageObject = GameAssets.i.imageobjects[spell.GetName()];
+        imageObject = GameAssets.instance.imageobjects[spell.GetName()];
         manaCostText.text = spell.GetManacost().ToString();
     }
 }

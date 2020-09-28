@@ -32,8 +32,8 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         enemy = GetComponent<Enemy>();
         rigidbody = GetComponent<Rigidbody>();
-        target = GameAssets.i.player.transform;
-        player = GameAssets.i.player.GetComponent<Player>();
+        target = GameAssets.instance.player.transform;
+        player = GameAssets.instance.player.GetComponent<Player>();
 
 
         hpbar.SetMaxHealth(enemy.maxHealth);
