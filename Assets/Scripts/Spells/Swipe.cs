@@ -8,9 +8,9 @@ public class Swipe : ISpell
     private readonly int manacost = 15;
     private readonly float coolDown = 3f;
     private float currentCoolDown = 0f;
-    private readonly float duration = 0.65f;
+    private readonly float duration = 0.45f;
     private readonly int damage = 30;
-    private readonly float windUpTime = 0.1f;
+    private readonly float windUpTime = 0.15f;
     private float remainingWindUp = 0;
 
     private Player player;

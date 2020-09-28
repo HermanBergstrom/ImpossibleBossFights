@@ -11680,6 +11680,7 @@ MonoBehaviour:
   player: {fileID: 865900993}
   rigidbody: {fileID: 865900988}
   animator: {fileID: 865900991}
+  agent: {fileID: 0}
   spellIcons:
   - {fileID: 1032908630}
   - {fileID: 687401976}
@@ -16565,28 +16566,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!195 &865900997
-NavMeshAgent:
+--- !u!114 &865900998
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865900986}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.000011444092
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.000022888184
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6c7733ece1add40b6ea7560e6b90d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &883446250
 GameObject:
   m_ObjectHideFlags: 0
@@ -27426,7 +27417,7 @@ GameObject:
   - component: {fileID: 2097836955}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
