@@ -19,7 +19,7 @@ public class SwordController : MonoBehaviour
 
     void OnTriggerEnter(Collider target)
     {
-        if (target.tag == "Enemy" && GameObject.Find("Player").GetComponent<PlayerController>().isAttacking && !targetStruck)
+        if (target.tag == "Enemy" && GameObject.Find("Player").GetComponent<PlayerController>().GetIsAttacking() && !targetStruck)
         {
             target.gameObject.GetComponent<Enemy>().ApplyDamage(damage);
             targetStruck = true;

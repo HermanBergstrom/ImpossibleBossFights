@@ -10,6 +10,8 @@ public class Swipe : ISpell
     private float currentCoolDown = 0f;
     private readonly float duration = 0.65f;
     private readonly int damage = 30;
+    private readonly float windUpTime = 0.1f;
+    private float remainingWindUp = 0;
 
     private Player player;
     private float remainingDuration;
@@ -42,7 +44,16 @@ public class Swipe : ISpell
         {
             remainingDuration -= Time.deltaTime;
 
-            if (remainingDuration <= 0)
+            if(remainingWindUp <= 0)
+            {
+                StartFX();
+            }
+            else
+            {
+                remainingWindUp -= Time.deltaTime;
+            }
+
+            if(remainingDuration <= 0)
             {
                 UnInvoke();
             }
@@ -60,6 +71,14 @@ public class Swipe : ISpell
 
     }
 
+    private void StartFX()
+    {
+        if (!this.playerSwordFx.gameObject.activeInHierarchy)
+        {
+            this.playerSwordFx.gameObject.SetActive(true);
+        }
+
+    }
 
 
     public string GetAnimation()
@@ -89,8 +108,9 @@ public class Swipe : ISpell
 
     public void Invoke()
     {
-        this.playerSwordFx.gameObject.SetActive(true);
         invoked = true;
+
+        remainingWindUp = windUpTime;
 
         remainingDuration = duration;
 

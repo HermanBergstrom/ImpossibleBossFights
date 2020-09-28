@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,10 +11,11 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rigidbody;
     // Start is called before the first frame 
     public Animator animator;
-    public bool isAttacking;
+    private bool isAttacking;
     List<IColliderObserver> observers;
     private float timeUntilRegen = 1f;
     // Update is called once per frame
+    public NavMeshAgent agent;
     
     [SerializeField]
     private SpellIconController[] spellIcons;
@@ -42,9 +45,9 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        handleMovement();
+        //handleMovement();
 
-        float attack = Input.GetAxis("Fire1");
+        /*float attack = Input.GetAxis("Fire1");
         
         if(attack > 0)
         {
@@ -54,13 +57,22 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool("isAttacking", false);
-        }
+        }*/
+
+        agent.speed = player.GetMoveSpeed();
+
+        animator.SetFloat("speed", agent.velocity.magnitude);
 
         UpdateSpells();
 
 
+        UpdateRegen();
+
+    }
+
+    void UpdateRegen() {
         timeUntilRegen -= Time.deltaTime;
-        if(timeUntilRegen < 0)
+        if (timeUntilRegen < 0)
         {
             player.TriggerRegen();
             timeUntilRegen = 1;
@@ -98,7 +110,7 @@ public class PlayerController : MonoBehaviour
             rigidbody.velocity = new Vector3(0, 0, 0);
         }
         
- 
+        
         animator.SetFloat("speed", rigidbody.velocity.magnitude);
 
     }
@@ -148,6 +160,11 @@ public class PlayerController : MonoBehaviour
 
         Swipe swipe = new Swipe();
         player.AddSpell(swipe);
+    }
+
+    public bool GetIsAttacking()
+    {
+        return isAttacking;
     }
 
 }
