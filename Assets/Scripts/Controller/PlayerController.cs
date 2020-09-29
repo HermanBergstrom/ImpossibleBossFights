@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
 
+[RequireComponent(typeof(CursorMovementScript))]
 public class PlayerController : MonoBehaviour
 {
 
     public Player player;
     public Rigidbody rigidbody;
+    private CursorMovementScript movement;
     // Start is called before the first frame 
     public Animator animator;
     private bool isAttacking;
@@ -16,7 +18,8 @@ public class PlayerController : MonoBehaviour
     private float timeUntilRegen = 1f;
     // Update is called once per frame
     public NavMeshAgent agent;
-    
+    private Camera cam;
+    private Enemy target;
     [SerializeField]
     private SpellIconController[] spellIcons;
 
@@ -24,6 +27,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        cam = Camera.main;
+
+        movement = GetComponent<CursorMovementScript>();
+
         observers = new List<IColliderObserver>();
 
         AddSpells();
@@ -45,19 +52,47 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        //handleMovement();
 
-        /*float attack = Input.GetAxis("Fire1");
-        
-        if(attack > 0)
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100))
         {
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
 
-            animator.SetBool("isAttacking", true);
+            if (enemy != null)
+            {
+                target = enemy;
+
+                Outline outline = enemy.gameObject.AddComponent<Outline>();
+                Color red = Color.red;
+                red.a = 0.4f;
+                outline.OutlineColor = red;
+                //outline.OutlineWidth = 1f;
+            }
+            else
+            {
+                if (target != null)
+                {
+                    Destroy(target.gameObject.GetComponent<Outline>());
+                    target = null;
+                }
+            }
+
+
+
+            if (Input.GetMouseButton(0))
+            {
+
+                animator.SetBool("isAttacking", true);
+                movement.MoveToPoint(hit.point);
+            }
+            else
+            {
+                animator.SetBool("isAttacking", false);
+            }
+
         }
-        else
-        {
-            animator.SetBool("isAttacking", false);
-        }*/
 
         agent.speed = player.GetMoveSpeed();
 
