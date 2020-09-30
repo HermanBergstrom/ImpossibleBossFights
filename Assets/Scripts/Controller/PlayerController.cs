@@ -14,10 +14,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame 
     public Animator animator;
     private bool isAttacking;
-    List<IColliderObserver> observers;
     private float timeUntilRegen = 1f;
     // Update is called once per frame
-    public NavMeshAgent agent;
     private Camera cam;
     private Enemy target;
     [SerializeField]
@@ -31,15 +29,7 @@ public class PlayerController : MonoBehaviour
 
         movement = GetComponent<CursorMovementScript>();
 
-        observers = new List<IColliderObserver>();
-
         AddSpells();
-
-        GameObject spellObject = transform.Find("SpellObject").gameObject;
-
-        SpellObjectController spellObjectController = spellObject.GetComponent<SpellObjectController>();
-
-        spellObjectController.observers = observers;
 
         for(int i = 0; i < spellIcons.Length; i++)
         {
@@ -53,6 +43,28 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+
+        animator.SetFloat("speed", movement.GetCurrentSpeed());
+        HandleCurrentMouseAction();
+        UpdateSpells();
+        UpdateRegen();
+
+    }
+
+
+
+    void UpdateRegen() {
+        timeUntilRegen -= Time.deltaTime;
+        if (timeUntilRegen < 0)
+        {
+            player.TriggerRegen();
+            timeUntilRegen = 1;
+        }
+    }
+
+    void HandleCurrentMouseAction()
+    {
+        bool attacking = false;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -64,90 +76,47 @@ public class PlayerController : MonoBehaviour
             {
                 target = enemy;
 
-                Outline outline = enemy.gameObject.AddComponent<Outline>();
-                Color red = Color.red;
-                red.a = 0.4f;
-                outline.OutlineColor = red;
-                //outline.OutlineWidth = 1f;
+                AddTargetOutline();
+
+                if (Input.GetMouseButton(0))
+                {
+                    if (Vector3.Distance(player.transform.position, enemy.transform.position) < player.GetAttackRange())
+                    {
+                        
+                        FaceTarget(enemy.transform);
+                        animator.SetTrigger("attacking");
+                        movement.SetStopped(true);
+                        attacking = true;
+                    }
+
+                }
             }
             else
             {
                 if (target != null)
                 {
-                    Destroy(target.gameObject.GetComponent<Outline>());
+                    target.gameObject.GetComponent<Outline>().enabled = false;
                     target = null;
                 }
             }
-
-
-
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !attacking)
             {
-
-                animator.SetBool("isAttacking", true);
+                movement.SetStopped(false);
                 movement.MoveToPoint(hit.point);
             }
-            else
-            {
-                animator.SetBool("isAttacking", false);
-            }
-
-        }
-
-        agent.speed = player.GetMoveSpeed();
-
-        animator.SetFloat("speed", agent.velocity.magnitude);
-
-        UpdateSpells();
-
-
-        UpdateRegen();
-
-    }
-
-    void UpdateRegen() {
-        timeUntilRegen -= Time.deltaTime;
-        if (timeUntilRegen < 0)
-        {
-            player.TriggerRegen();
-            timeUntilRegen = 1;
         }
     }
 
-    void handleMovement()
+    private void AddTargetOutline()
     {
-        float vx = Input.GetAxis("Horizontal");
-        float vz = Input.GetAxis("Vertical");
-
-        if (vx != 0 || vz != 0)
+        if (target.GetComponent<Outline>() == null)
         {
-
-            var velocity = new Vector3(vx, 0, vz);
-
-            float newVx = vx * player.GetMoveSpeed() / velocity.magnitude;
-            float newVz = vz * player.GetMoveSpeed() / velocity.magnitude;
-
-            if (Mathf.Abs(Vector3.Dot(transform.forward.normalized, velocity.normalized) - 1) > 0.1)
-            {
-
-
-                //rigidbody.velocity = new Vector3(0, 0, 0);
-            }
-            else
-            {
-                rigidbody.velocity = new Vector3(newVx, 0, newVz);
-            }
-            transform.forward = Vector3.RotateTowards(transform.forward, velocity.normalized, 0.03f * player.GetRotationSpeed(), 0);
-
+            Outline outline = target.gameObject.AddComponent<Outline>();
+            Color red = Color.red;
+            red.a = 0.4f;
+            outline.OutlineColor = red;
         }
-        else
-        {
-            rigidbody.velocity = new Vector3(0, 0, 0);
-        }
-        
-        
-        animator.SetFloat("speed", rigidbody.velocity.magnitude);
-
+        target.gameObject.GetComponent<Outline>().enabled = true;
     }
 
     public void SetIsAttacking(int isAttacking)
@@ -190,11 +159,10 @@ public class PlayerController : MonoBehaviour
     private void AddSpells()
     {
         Dash dash = new Dash();
-        observers.Add(dash);
-        player.AddSpell(dash);
-
         Swipe swipe = new Swipe();
+
         player.AddSpell(swipe);
+        player.AddSpell(dash);
     }
 
     public bool GetIsAttacking()
@@ -202,6 +170,12 @@ public class PlayerController : MonoBehaviour
         return isAttacking;
     }
 
+    void FaceTarget(Transform target)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+    }
 }
 
 

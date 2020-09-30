@@ -17,7 +17,6 @@ public class CursorMovementScript : MonoBehaviour
         agent.speed = 10;
         agent.angularSpeed = 600;
         agent.acceleration = 1000;
-        GetComponent<PlayerController>().agent = agent;
         cam = Camera.main;
 
     }
@@ -33,5 +32,20 @@ public class CursorMovementScript : MonoBehaviour
     public void MoveToPoint(Vector3 point)
     {
         agent.SetDestination(point);
+    }
+
+    public void SetMaxSpeed(int speed)
+    {
+        agent.speed = speed;
+    }
+
+    public float GetCurrentSpeed()
+    {
+        return agent.velocity.magnitude;
+    }
+
+    public void SetStopped(bool stopped)
+    {
+        agent.isStopped = stopped;
     }
 }

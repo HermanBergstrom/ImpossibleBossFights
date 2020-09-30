@@ -23,12 +23,14 @@ public class GameAssets : MonoBehaviour
     public Dictionary<string, SpellIconImageObject> imageobjects;
 
     public GameObject player;
+
+    public LayerMask enemyLayers;
     private void Awake()
     {
         imageobjects = new Dictionary<string, SpellIconImageObject>();
 
-        Sprite defaultImage = Resources.Load<Sprite>("Icons/skill_icon_03");
-        Sprite pressedImage = Resources.Load<Sprite>("Icons/skill_icon_03_nobg");
+        Sprite defaultImage = Resources.Load<Sprite>("Icons/skill_icon_04");
+        Sprite pressedImage = Resources.Load<Sprite>("Icons/skill_icon_04_nobg");
         imageobjects.Add("Dash", new SpellIconImageObject(defaultImage, pressedImage));
 
         defaultImage = Resources.Load<Sprite>("Icons/skill_icon_02");

@@ -18,23 +18,23 @@ public class InputController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            spells[0].image.sprite = pressedImages[0];
+            //spells[0].image.sprite = pressedImages[0];
         }
         if (Input.GetKey(KeyCode.Alpha1))
         {
             playerController.InvokeSpell(0);
         }
         if (Input.GetKeyUp(KeyCode.Alpha1)){
-            spells[0].image.sprite = defaultImages[0];
+            //spells[0].image.sprite = defaultImages[0];
         }
         if (Input.GetKey(KeyCode.Alpha2))
         {
             playerController.InvokeSpell(1);
-            spells[1].image.sprite = pressedImages[1];
+            //spells[1].image.sprite = pressedImages[1];
         }
         if (Input.GetKeyUp(KeyCode.Alpha2))
         {
-            spells[1].image.sprite = defaultImages[1];
+            //spells[1].image.sprite = defaultImages[1];
         }
         if (Input.GetKey(KeyCode.Alpha3))
         {

@@ -22,6 +22,9 @@ public class Player : Character
     [SerializeField]
     protected int rotationSpeed;
 
+    [SerializeField]
+    private float attackRange;
+
     private List<ISpell> spells;
 
     private bool isMooving;
@@ -158,5 +161,10 @@ public class Player : Character
     public void AddSpell(ISpell spell)
     {
         spells.Add(spell);
+    }
+
+    public float GetAttackRange()
+    {
+        return attackRange;
     }
 }

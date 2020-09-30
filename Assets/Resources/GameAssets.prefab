@@ -45,3 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pfDamagePopup: {fileID: 3839521534829410270, guid: 0776e6a18c22f744ab8a4407d9ebda8c,
     type: 3}
+  player: {fileID: 0}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 256
