@@ -12,7 +12,9 @@ public class Swipe : ISpell
     private readonly int damage = 30;
     private readonly float windUpTime = 0.15f;
     private float remainingWindUp = 0;
+    private readonly float radius = 6;
 
+    private bool windUpDone = false;
     private Player player;
     private float remainingDuration;
     private bool invoked;
@@ -44,9 +46,11 @@ public class Swipe : ISpell
         {
             remainingDuration -= Time.deltaTime;
 
-            if(remainingWindUp <= 0)
+            if(remainingWindUp <= 0 && !windUpDone)
             {
+                ApplyDamageInArea();
                 StartFX();
+                windUpDone = true;
             }
             else
             {
@@ -69,6 +73,37 @@ public class Swipe : ISpell
             currentCoolDown = 0;
         }
 
+    }
+
+    private void ApplyDamageInArea()
+    {
+        Collider[] hitEnemies = Physics.OverlapSphere(player.transform.position, radius, GameAssets.instance.enemyLayers);
+        foreach (Collider enemyCollider in hitEnemies)
+        {
+            Enemy enemy = enemyCollider.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                if (IsInFrontOf(enemy.transform))
+                {
+                    enemy.ApplyDamage(damage);
+                }
+            }
+        }
+    }
+    
+    private bool IsInFrontOf(Transform target)
+    {
+        Vector3 targetDir = target.position - player.transform.position;
+
+        float angle = Vector3.Angle(targetDir, player.transform.forward);
+
+        if (Mathf.Abs(angle) < 90)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void StartFX()
@@ -109,6 +144,8 @@ public class Swipe : ISpell
     public void Invoke()
     {
         invoked = true;
+
+        windUpDone = false;
 
         remainingWindUp = windUpTime;
 

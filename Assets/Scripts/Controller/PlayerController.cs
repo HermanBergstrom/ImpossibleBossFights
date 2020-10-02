@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CursorMovementScript))]
 public class PlayerController : MonoBehaviour
@@ -17,10 +18,11 @@ public class PlayerController : MonoBehaviour
     private float timeUntilRegen = 1f;
     // Update is called once per frame
     private Camera cam;
+    private Enemy hoveredEnemy; 
     private Enemy target;
     [SerializeField]
     private SpellIconController[] spellIcons;
-
+    private bool moveControllsDisabled;
     public AudioSource playerAudio;
 
     private void Start()
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
 
         animator.SetFloat("speed", movement.GetCurrentSpeed());
+        movement.SetMaxSpeed(player.GetMoveSpeed());
         HandleCurrentMouseAction();
         UpdateSpells();
         UpdateRegen();
@@ -64,59 +67,94 @@ public class PlayerController : MonoBehaviour
 
     void HandleCurrentMouseAction()
     {
-        bool attacking = false;
+
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100))
+        if(Physics.Raycast(ray, out hit, 100))
         {
-            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            CheckForHoveredEnemy(hit);
+        }
 
-            if (enemy != null)
+        if (Input.GetMouseButton(0))
+        {
+            if(hoveredEnemy != null)
             {
-                target = enemy;
-
-                AddTargetOutline();
-
-                if (Input.GetMouseButton(0))
-                {
-                    if (Vector3.Distance(player.transform.position, enemy.transform.position) < player.GetAttackRange())
-                    {
-                        
-                        FaceTarget(enemy.transform);
-                        animator.SetTrigger("attacking");
-                        movement.SetStopped(true);
-                        attacking = true;
-                    }
-
-                }
+                target = hoveredEnemy;
             }
             else
             {
-                if (target != null)
-                {
-                    target.gameObject.GetComponent<Outline>().enabled = false;
-                    target = null;
-                }
-            }
-            if (Input.GetMouseButton(0) && !attacking)
-            {
-                movement.SetStopped(false);
-                movement.MoveToPoint(hit.point);
+                target = null;
+                MovePlayerToPoint(hit.point);
             }
         }
+
+        if (target != null)
+        {
+            HandleAttackCommand();
+        }
+
+    }
+
+    public void MovePlayerToPoint(Vector3 point)
+    {
+        if (!moveControllsDisabled)
+        {
+            movement.SetStopped(false);
+            movement.MoveToPoint(point);
+        }
+    }
+    private void HandleAttackCommand()
+    {
+        if (Vector3.Distance(player.transform.position, target.transform.position) < player.GetAttackRange())
+        {
+            
+            FaceTarget(target.transform);
+            if (IsFacingTarget(target.transform))
+            {
+                animator.SetTrigger("attacking");
+                target = null;
+                movement.SetStopped(true);
+            }
+
+        }
+        else
+        {
+            MovePlayerToPoint(target.transform.position);
+        }
+    }
+
+    private void CheckForHoveredEnemy(RaycastHit hit)
+    {
+
+        Enemy enemy = hit.collider.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            hoveredEnemy = enemy;
+
+            AddTargetOutline();
+        }
+        else
+        {
+            if (hoveredEnemy != null)
+            {
+                hoveredEnemy.gameObject.GetComponent<Outline>().enabled = false;
+                hoveredEnemy = null;
+            }
+        }
+        
     }
 
     private void AddTargetOutline()
     {
-        if (target.GetComponent<Outline>() == null)
+        if (hoveredEnemy.GetComponent<Outline>() == null)
         {
-            Outline outline = target.gameObject.AddComponent<Outline>();
+            Outline outline = hoveredEnemy.gameObject.AddComponent<Outline>();
             Color red = Color.red;
             red.a = 0.4f;
             outline.OutlineColor = red;
         }
-        target.gameObject.GetComponent<Outline>().enabled = true;
+        hoveredEnemy.gameObject.GetComponent<Outline>().enabled = true;
     }
 
     public void SetIsAttacking(int isAttacking)
@@ -169,12 +207,31 @@ public class PlayerController : MonoBehaviour
     {
         return isAttacking;
     }
-
+    
     void FaceTarget(Transform target)
     {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+    }
+
+    bool IsFacingTarget(Transform target)
+    {
+        Vector3 targetDir = target.position - transform.position;
+
+        float angle = Vector3.Angle(targetDir, transform.forward);
+
+        if(Mathf.Abs(angle) < 20)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void SetMovementControllerDisabled(bool value)
+    {
+        moveControllsDisabled = value;
     }
 }
 
