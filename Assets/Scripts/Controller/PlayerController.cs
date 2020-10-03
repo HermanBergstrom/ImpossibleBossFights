@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Enemy target;
     [SerializeField]
     private SpellIconController[] spellIcons;
-    private bool moveControllsDisabled;
+    private bool controllsDisabled;
     public AudioSource playerAudio;
 
     private void Start()
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     public void MovePlayerToPoint(Vector3 point)
     {
-        if (!moveControllsDisabled)
+        if (!controllsDisabled)
         {
             movement.SetStopped(false);
             movement.MoveToPoint(point);
@@ -105,21 +105,24 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleAttackCommand()
     {
-        if (Vector3.Distance(player.transform.position, target.transform.position) < player.GetAttackRange())
+        if (!controllsDisabled)
         {
-            
-            FaceTarget(target.transform);
-            if (IsFacingTarget(target.transform))
+            if (Vector3.Distance(player.transform.position, target.transform.position) < player.GetAttackRange())
             {
-                animator.SetTrigger("attacking");
-                target = null;
-                movement.SetStopped(true);
-            }
 
-        }
-        else
-        {
-            MovePlayerToPoint(target.transform.position);
+                FaceTarget(target.transform);
+                if (IsFacingTarget(target.transform))
+                {
+                    animator.SetTrigger("attacking");
+                    target = null;
+                    movement.SetStopped(true);
+                }
+
+            }
+            else
+            {
+                MovePlayerToPoint(target.transform.position);
+            }
         }
     }
 
@@ -229,9 +232,9 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void SetMovementControllerDisabled(bool value)
+    public void SetControllsDisabled(bool value)
     {
-        moveControllsDisabled = value;
+        controllsDisabled = value;
     }
 }
 

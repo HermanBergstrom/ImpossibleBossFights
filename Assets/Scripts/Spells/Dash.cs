@@ -65,7 +65,7 @@ public class Dash : ISpell
 
         targetPosition = FindChargePoint();
         playerController.MovePlayerToPoint(targetPosition);
-        playerController.SetMovementControllerDisabled(true);
+        playerController.SetControllsDisabled(true);
 
         //remainingDuration = duration;
 
@@ -142,7 +142,7 @@ public class Dash : ISpell
         //remainingDuration = 0;
         player.SetMoveSpeed(oldMovementSpeed);
         player.gameObject.GetComponent<CapsuleCollider>().enabled = true;
-        playerController.SetMovementControllerDisabled(false);
+        playerController.SetControllsDisabled(false);
         invoked = false;
     }
 
