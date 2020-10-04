@@ -872,7 +872,7 @@ ModelImporter:
       name: arthur_attack_01
       takeName: Take 001
       internalID: 0
-      firstFrame: 0
+      firstFrame: 15
       lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
